@@ -1,0 +1,32 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>TitleRect.qml</file>
+        <file>Image/btn_close.png</file>
+        <file>Image/clock.png</file>
+        <file>Image/collect.png</file>
+        <file>Image/desktop.png</file>
+        <file>Image/exit.png</file>
+        <file>Image/face.png</file>
+        <file>Image/finger.png</file>
+        <file>Image/icon.png</file>
+        <file>Image/idCard.png</file>
+        <file>Image/lbl_msg_error.png</file>
+        <file>Image/lbl_msg_info.png</file>
+        <file>Image/lbl_msg_question.png</file>
+        <file>Image/lbl_msg_warning.png</file>
+        <file>Image/min.png</file>
+        <file>Image/offline.png</file>
+        <file>Image/online.png</file>
+        <file>Image/reboot.png</file>
+        <file>Image/return.png</file>
+        <file>Image/securityCard.png</file>
+        <file>Image/settings.png</file>
+        <file>Image/shutdown.png</file>
+        <file>Image/user_icon.png</file>
+        <file>Image/vein.png</file>
+        <file>ControlRect.qml</file>
+        <file>StatusRect.qml</file>
+        <file>SuperButton.qml</file>
+    </qresource>
+</RCC>
