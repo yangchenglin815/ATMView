@@ -3,6 +3,8 @@ import QtQuick.Controls 1.1
 import QtQuick.Controls.Styles 1.2
 
 Rectangle {
+    signal showAuthorizateWindow()
+
      Label {
          id: versionNo
          anchors.verticalCenter: parent.verticalCenter
@@ -28,5 +30,6 @@ Rectangle {
                  opacity: 0
              }
          }
+         onClicked: showAuthorizateWindow()
      }
 }

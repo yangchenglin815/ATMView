@@ -7,7 +7,7 @@ Window {
     id: mainWindow
     visible: true
     visibility: Window.FullScreen
-    flags: Qt.Window | Qt.FramelessWindowHint
+    flags: Qt.Window | Qt.FramelessWindowHint |  Qt.WindowStaysOnTopHint
 
     TitleRect {
         id: title
@@ -34,11 +34,15 @@ Window {
         anchors.bottom: parent.bottom
         height: 40
         color: "#0090D8"
+        onShowAuthorizateWindow: {
+            mask.visible = true;
+            authorizateDlg.open();
+        }
     }
 
     StackView {
         id: stack
-        initialItem: mainView
+        initialItem: itemView
         anchors.top: control.bottom
         anchors.bottom: status.top
         anchors.left: parent.left
@@ -46,28 +50,37 @@ Window {
 
         Component {
             id: mainView
-            Rectangle {
-                anchors.fill: parent
-                color: "#EEEEEE"
-                Row {
-                    anchors.centerIn: parent
-                    spacing: 60
-                    SuperButton {
-                        id: idCardReader
-                        width: 300
-                        height: 300
-                        url: "Image/idCard.png"
-                        text: qsTr("身份证")
-                    }
-                    SuperButton {
-                        id: siCardReader
-                        width: 300
-                        height: 300
-                        url: "Image/securityCard.png"
-                        text: qsTr("社保卡")
-                    }
-                }
+            MainComponent {
+                  id: mainPage
+                  onReadByIdcard: {
+                      console.log("kkkkk")
+                       stack.push(itemView)
+                  }
             }
+        }
+
+        Component {
+             id: itemView
+             ItemComponent {
+                 id: itemPage
+             }
+        }
+    }
+
+    Rectangle {
+        id: mask
+        color: Qt.rgba(0, 0, 0, 0.7)
+        width: parent.width
+        height: parent.height
+        anchors.fill: parent
+        visible: false
+
+        AuthorizateComponent {
+            id: authorizateDlg
+            width: 400
+            height: 300
+            visible:  false
+            anchors.centerIn: parent
         }
     }
 }

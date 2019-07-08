@@ -28,5 +28,8 @@
         <file>ControlRect.qml</file>
         <file>StatusRect.qml</file>
         <file>SuperButton.qml</file>
+        <file>MainComponent.qml</file>
+        <file>ItemComponent.qml</file>
+        <file>AuthorizateComponent.qml</file>
     </qresource>
 </RCC>

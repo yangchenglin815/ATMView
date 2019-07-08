@@ -4,29 +4,29 @@ import QtQuick.Controls 1.1
 Rectangle {
     property alias url: image.source
     property alias text: label.text
+    property alias imageWidth: image.width
+    property alias imageHight: image.height
+    property alias textFont: label.font.pixelSize
+    signal idCardRead()
 
-    color: "#00cb00"
     radius: 4
 
     Column{
        anchors.centerIn: parent
-        spacing: 0
+        spacing: 12
+
         Image {
             id: image
-            width: 128; height: 128
             MouseArea {
                 id: mouseArea
                 anchors.fill: parent
-                onClipChanged: {
-
-                }
+                onClicked: idCardRead()
             }
         }
 
         Label {
             id: label
             font.family: qsTr("微软雅黑")
-            font.pixelSize: 24
             color: "#FFFFFF"
             anchors.horizontalCenter: parent.horizontalCenter
         }
