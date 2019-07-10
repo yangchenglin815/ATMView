@@ -21,7 +21,7 @@ Rectangle {
           anchors.left: userIcon.right
           anchors.verticalCenter: parent.verticalCenter
           anchors.leftMargin: 30
-          text: qsTr("隔壁老王")
+          text: qsTr("****")
           font.family: qsTr("微软雅黑")
           font.pixelSize: 16
           color: "#000000"
@@ -32,7 +32,7 @@ Rectangle {
           anchors.left: userName.right
           anchors.verticalCenter: parent.verticalCenter
           anchors.leftMargin: 30
-          text: "620502********2351"
+          text: "******************"
           font.family: "微软雅黑"
           font.pixelSize: 16
           color: "#000000"
@@ -40,6 +40,7 @@ Rectangle {
 
       Button {
           id: logout
+          visible: false
           width: 100
           height: 36
           anchors.verticalCenter: parent.verticalCenter

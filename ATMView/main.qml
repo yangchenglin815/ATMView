@@ -42,7 +42,7 @@ Window {
 
     StackView {
         id: stack
-        initialItem: itemView
+        initialItem: mainView
         anchors.top: control.bottom
         anchors.bottom: status.top
         anchors.left: parent.left
@@ -51,19 +51,19 @@ Window {
         Component {
             id: mainView
             MainComponent {
-                  id: mainPage
-                  onReadByIdcard: {
-                      console.log("kkkkk")
-                       stack.push(itemView)
-                  }
+                id: mainPage
+                onReadByIdcard: {
+                    console.log("kkkkk")
+                    stack.push(itemView)
+                }
             }
         }
 
         Component {
-             id: itemView
-             ItemComponent {
-                 id: itemPage
-             }
+            id: itemView
+            ItemComponent {
+                id: itemPage
+            }
         }
     }
 
@@ -81,6 +81,24 @@ Window {
             height: 300
             visible:  false
             anchors.centerIn: parent
+        }
+    }
+
+    //Init
+    Component.onCompleted: {
+        var operatorInfo = getModelData.getOperatorInfo();
+
+        var interfaceHeadInfo = getModelData.getInterfaceHead();
+
+        getHttpAgent.RequestOnOperatorLogin(operatorInfo, interfaceHeadInfo)
+    }
+
+    Connections {
+        target: getHttpAgent
+        onRespondOnOperatorLogin: {
+            console.log(nCode)
+            console.log(sMsg)
+            console.log(sessionId)
         }
     }
 }
