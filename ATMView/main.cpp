@@ -13,6 +13,7 @@
 #include "Windows.h"
 #include "DbgHelp.h"
 #include "dump.h"
+#include "LogAgent.h"
 
 int main(int argc, char *argv[])
 {
@@ -20,7 +21,7 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     //设置编码格式
-    QTextCodec *codec = QTextCodec::codecForName("GB2312");
+    QTextCodec *codec = QTextCodec::codecForName("UTF-8");
     QTextCodec::setCodecForLocale(codec);
 
     //设置字体
@@ -41,6 +42,7 @@ int main(int argc, char *argv[])
     LOG(INFO)<<"App 启动.";
 
     QQmlApplicationEngine engine;
+    engine.rootContext()->setContextProperty("getLogObj", LogAgent::instance());
     engine.rootContext()->setContextProperty("getModelData", DataModelReader::instance());
     engine.rootContext()->setContextProperty("getHttpAgent", HttpBusiness::instance());
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));

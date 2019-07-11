@@ -323,7 +323,11 @@ struct CompleteIdentifyData
 //心跳包数据
 struct HeartbeatData
 {
-	QString offlineCount;
+    int offlineCount;
+
+    HeartbeatData() {
+        offlineCount = 0;
+    }
 
 	bool assemble(QJsonObject& obj) const
 	{

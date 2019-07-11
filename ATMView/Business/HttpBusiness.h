@@ -24,7 +24,7 @@ public:
     //完成认证请求
     Q_INVOKABLE void RequestOnCompleteIdentify(CompleteIdentifyData completeIdentifyData, InterfaceInputHead header);
     //心跳请求
-    Q_INVOKABLE void RequestOnHeartbeat(HeartbeatData heartBeatData, InterfaceInputHead header);
+    Q_INVOKABLE void RequestOnHeartbeat(QVariantMap heartBeatMap, QVariantMap headeMap);
 
 signals:
     //经办人登录应答

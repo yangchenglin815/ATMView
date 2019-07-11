@@ -44,7 +44,44 @@ QVariantMap DataModelReader::getOperatorInfo() const
     return map;
 }
 
-InterfaceInputHead &DataModelReader::setInterfaceHead(QVariantMap map)
+QVariantMap DataModelReader::getHeartbeatInfo() const
+{
+    QVariantMap map;
+    map.clear();
+
+    map.insert("offlineCount", m_heartbeatData.offlineCount);
+
+    return map;
+}
+
+void DataModelReader::setInterfaceHead(QVariantMap map)
+{
+    m_interfaceInputHead.sessionId = map.value("sessionId").toString();
+    m_interfaceInputHead.terminalId = map.value("terminalId").toString();
+    m_interfaceInputHead.terminalType = map.value("terminalType").toString();
+    m_interfaceInputHead.terminalVersion = map.value("terminalVersion").toString();
+    m_interfaceInputHead.sysType = map.value("sysType").toString();
+    m_interfaceInputHead.sysVersion = map.value("sysVersion").toString();
+    m_interfaceInputHead.userId = map.value("userId").toString();
+    m_interfaceInputHead.portalVersion = map.value("portalVersion").toString();
+    m_interfaceInputHead.invokeTime = map.value("invokeTime").toString();
+}
+
+void DataModelReader::setOperatorInfo(QVariantMap map)
+{
+    m_operatorInfo.userId = map.value("userId").toString();
+    m_operatorInfo.passwd = map.value("passwd").toString();
+    m_operatorInfo.userName = map.value("userName").toString();
+    m_operatorInfo.idCard = map.value("idCard").toString();
+    m_operatorInfo.type = map.value("type").toString();
+}
+
+void DataModelReader::setHeartbeatData(QVariantMap map)
+{
+    m_heartbeatData.offlineCount = map.value("offlineCount").toInt();
+}
+
+InterfaceInputHead &DataModelReader::interfaceHead(QVariantMap map)
 {
     m_interfaceInputHead.sessionId = map.value("sessionId").toString();
     m_interfaceInputHead.terminalId = map.value("terminalId").toString();
@@ -59,7 +96,7 @@ InterfaceInputHead &DataModelReader::setInterfaceHead(QVariantMap map)
     return m_interfaceInputHead;
 }
 
-OperatorInfo &DataModelReader::setOperatorInfo(QVariantMap map)
+OperatorInfo &DataModelReader::operatorInfo(QVariantMap map)
 {
     m_operatorInfo.userId = map.value("userId").toString();
     m_operatorInfo.passwd = map.value("passwd").toString();
@@ -68,6 +105,13 @@ OperatorInfo &DataModelReader::setOperatorInfo(QVariantMap map)
     m_operatorInfo.type = map.value("type").toString();
 
     return m_operatorInfo;
+}
+
+HeartbeatData &DataModelReader::heartbeatData(QVariantMap map)
+{
+    m_heartbeatData.offlineCount = map.value("offlineCount").toInt();
+
+    return m_heartbeatData;
 }
 
 DataModelReader::DataModelReader(QObject *parent) : QObject(parent)

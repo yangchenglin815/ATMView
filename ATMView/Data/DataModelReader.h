@@ -16,9 +16,15 @@ public:
 
     Q_INVOKABLE QVariantMap getInterfaceHead() const;
     Q_INVOKABLE QVariantMap getOperatorInfo() const;
+    Q_INVOKABLE QVariantMap getHeartbeatInfo() const;
 
-    InterfaceInputHead & setInterfaceHead(QVariantMap map);
-    OperatorInfo &  setOperatorInfo(QVariantMap map);
+    InterfaceInputHead & interfaceHead(QVariantMap map);
+    OperatorInfo &  operatorInfo(QVariantMap map);
+    HeartbeatData & heartbeatData(QVariantMap map);
+
+    Q_INVOKABLE void setInterfaceHead(QVariantMap map);
+    Q_INVOKABLE void setOperatorInfo(QVariantMap map);
+    Q_INVOKABLE void setHeartbeatData(QVariantMap map);
 
 private:
     explicit DataModelReader(QObject *parent = nullptr);
@@ -32,6 +38,7 @@ private:
 
     InterfaceInputHead m_interfaceInputHead;
     OperatorInfo m_operatorInfo;
+    HeartbeatData m_heartbeatData;
 };
 
 #endif // DATAMODELREADER_H

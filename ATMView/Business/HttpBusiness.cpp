@@ -15,8 +15,8 @@ HttpBusiness *HttpBusiness::instance()
 
 void HttpBusiness::RequestOnOperatorLogin(QVariantMap operatorMap, QVariantMap headerMap)
 {
-    OperatorInfo operatorInfo = DataModelReader::instance()->setOperatorInfo(operatorMap);
-    InterfaceInputHead headerInfo = DataModelReader::instance()->setInterfaceHead(headerMap);
+    OperatorInfo operatorInfo = DataModelReader::instance()->operatorInfo(operatorMap);
+    InterfaceInputHead headerInfo = DataModelReader::instance()->interfaceHead(headerMap);
 
     HttpAgent::instance()->RequestOnOperatorLogin(operatorInfo, headerInfo);
 }
@@ -46,9 +46,12 @@ void HttpBusiness::RequestOnCompleteIdentify(CompleteIdentifyData completeIdenti
     HttpAgent::instance()->RequestOnCompleteIdentify(completeIdentifyData, header);
 }
 
-void HttpBusiness::RequestOnHeartbeat(HeartbeatData heartBeatData, InterfaceInputHead header)
+void HttpBusiness::RequestOnHeartbeat(QVariantMap heartBeatMap, QVariantMap headerMap)
 {
-    HttpAgent::instance()->RequestOnHeartbeat(heartBeatData, header);
+    HeartbeatData heartbeatData = DataModelReader::instance()->heartbeatData(heartBeatMap);
+    InterfaceInputHead interfaceHead = DataModelReader::instance()->interfaceHead(headerMap);
+
+    HttpAgent::instance()->RequestOnHeartbeat(heartbeatData, interfaceHead);
 }
 
 HttpBusiness::HttpBusiness(QObject *parent) : QObject(parent)

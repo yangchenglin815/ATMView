@@ -1,13 +1,13 @@
 /***********************************************************************************
 *								GlogManager.cpp
 *
-* Copyright(C):	±±¾©ÖÇ»ÛÑÛ¿Æ¼¼¹É·ÝÓÐÏÞ¹«Ë¾
+* Copyright(C):	ï¿½ï¿½ï¿½ï¿½ï¿½Ç»ï¿½ï¿½Û¿Æ¼ï¿½ï¿½É·ï¿½ï¿½ï¿½ï¿½Þ¹ï¿½Ë¾
 *
 * Author:  HJM,TZH
 *
 * Date: 2018-12
 *
-* Description: ÈÕÖ¾¹ÜÀíÆ÷ÊµÏÖ
+* Description: ï¿½ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½
 ***********************************************************************************/
 #include "GlogManager.h"
 #include <string>
@@ -106,5 +106,5 @@ void GlogManager::shutdownLog()
 void GlogManager::setDumpCallbackFunc(dumpCallBackFunc fn)
 {
 	//google::Install
-	//google::InstallFailureWriter(fn);
+    //google::InstallFailureWriter(fn);
 }

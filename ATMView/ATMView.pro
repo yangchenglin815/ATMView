@@ -54,7 +54,8 @@ SOURCES += main.cpp \
     Business/GlobalSignal.cpp \
     Business/HttpAgent.cpp \
     Business/HttpBusiness.cpp \
-    Data/DataModelReader.cpp
+    Data/DataModelReader.cpp \
+    Log/LogAgent.cpp
 
 RESOURCES += qml.qrc
 
@@ -103,4 +104,5 @@ HEADERS += \
     Business/GlobalSignal.h \
     Business/HttpAgent.h \
     Business/HttpBusiness.h \
-    Data/DataModelReader.h
+    Data/DataModelReader.h \
+    Log/LogAgent.h
