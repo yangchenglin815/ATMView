@@ -1,8 +1,12 @@
-import QtQuick 2.0
+﻿import QtQuick 2.0
 import QtQuick.Controls 1.1
 import QtQuick.Controls.Styles 1.2
 
 Rectangle {
+    property alias nameText: userName.text
+    property alias certNoText: idCard.text
+    property alias exitBtnVisible: logout.visible
+
       Label {
           id: userIcon
           width: 64
@@ -40,7 +44,6 @@ Rectangle {
 
       Button {
           id: logout
-          visible: false
           width: 100
           height: 36
           anchors.verticalCenter: parent.verticalCenter

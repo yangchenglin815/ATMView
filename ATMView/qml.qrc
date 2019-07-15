@@ -31,5 +31,6 @@
         <file>MainComponent.qml</file>
         <file>ItemComponent.qml</file>
         <file>AuthorizateComponent.qml</file>
+        <file>LoadingComponent.qml</file>
     </qresource>
 </RCC>

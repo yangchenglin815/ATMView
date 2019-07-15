@@ -54,4 +54,6 @@ enum CardReaderCode
 	E_ID_CONNECT_FAILED = -1003,          //身份证读卡器连接失败
 	E_ID_AUTHENTICATE_FAILED = -1004,     //身份证读卡器卡认证失败
 	E_ID_READ_FAILED = -1005,             //身份证读卡器读卡失败
+    E_SI_LOAD_DLL_FAILED,
+    E_ID_LOAD_DLL_FAILED
 };

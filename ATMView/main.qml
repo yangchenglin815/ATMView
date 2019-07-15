@@ -1,4 +1,4 @@
-import QtQuick 2.3
+﻿import QtQuick 2.3
 import QtQuick.Window 2.2
 import QtQuick.Controls 1.1
 import QtQuick.Controls.Styles 1.2
@@ -9,6 +9,7 @@ Window {
     visible: true
     visibility: Window.FullScreen
     flags: Qt.Window | Qt.FramelessWindowHint |  Qt.WindowStaysOnTopHint
+    property int clockCounter: 60
 
     Rectangle {
         id: mainRect
@@ -19,14 +20,24 @@ Window {
                 name: "freeState"
                 PropertyChanges {
                     target: title
-
+                    clockVisible: true
+                    countVisible: true
+                }
+                PropertyChanges {
+                    target: control
+                    exitBtnVisible: true
                 }
             },
             State {
                 name: "workState"
                 PropertyChanges {
                     target: title
-
+                    clockVisible: false
+                    countVisible: false
+                }
+                PropertyChanges {
+                    target: control
+                    exitBtnVisible: false
                 }
             }
         ]
@@ -75,8 +86,10 @@ Window {
                 MainComponent {
                     id: mainPage
                     onReadByIdcard: {
-                        console.log("kkkkk")
-                        stack.push(itemView)
+                        getBusinessAgent.ReadIdCard()
+                        mask.visible = true
+                        loadingDlg.text = "正在加载，请稍候..."
+                        loadingDlg.open()
                     }
                 }
             }
@@ -104,62 +117,67 @@ Window {
                 visible:  false
                 anchors.centerIn: parent
             }
+
+            LoadingComponent {
+                id: loadingDlg
+                width: 500
+                height: 320
+                visible:  false
+                anchors.centerIn: parent
+            }
         }
     }
 
     MessageDialog {
         id: messageDialog
-        onAccepted: {
-            console.log("And of course you could only agree.")
-            Qt.quit()
-        }
+        onAccepted: close()
         visible: false
     }
 
     //Init
-    Component.onCompleted: {
-        var operatorInfo = getModelData.getOperatorInfo();
+    Component.onCompleted: getHttpAgent.RequestOnOperatorLogin()
 
-        var interfaceHeadInfo = getModelData.getInterfaceHead();
+    Connections {
+        target: getBusinessAgent
+        onSigOnReadCardFailed: {
+            mask.visible = false
+            loadingDlg.close()
 
-        getHttpAgent.RequestOnOperatorLogin(operatorInfo, interfaceHeadInfo)
+            messageDialog.title = "警告"
+            messageDialog.text = errMsg
+            messageDialog.icon = StandardIcon.Warning
+            messageDialog.open()
+        }
+        onSigOnReadCardSuccess: {
+            mask.visible = false
+            loadingDlg.close()
+
+            getHttpAgent.RespondOnGetBaseInfo()
+        }
     }
 
     Connections {
         target: getHttpAgent
-        onRespondOnOperatorLogin: {
-            if (nCode === 0) {
-                getLogObj.logInfo("OperatorLogin 请求成功")
-                    var interfaceHeadInfo = getModelData.getInterfaceHead();
-                    interfaceHeadInfo.sessionId = sessionId
-                    getModelData. setInterfaceHead(interfaceHeadInfo)
+        onRespondSigOnNetworkErr: {
+            messageDialog.title = nCode
+            messageDialog.text = sMsg
+            messageDialog.icon = StandardIcon.Warning
+            messageDialog.open()
+        }
+        onRespondSigOnHeartbeat: {
+            if (online) {
+                status.labelImage = "Image/online.png"
             }
             else {
-                 getLogObj.logInfo("OperatorLogin 请求出现异常 -- 错误码: " + nCode + "，错误信息：" +sMsg)
-                messageDialog.title = "警告"
-                messageDialog.text = "系统初始化异常--错误码:" + nCode + ", 错误信息:" + sMsg
-                messageDialog.icon = StandardIcon.Warning
-                messageDialog.open()
+                status.labelImage = "Image/offline.png"
             }
         }
-        onRespondOnHeartbeat: {
-            var heartbeatData = getModelData.getHeartbeatInfo()
-              if (nCode === 0) {
-                      getLogObj.logInfo("Heartbeat 请求成功")
-                      heartbeatData.offlineCount = 0;
-              }
-              else {
-                  getLogObj.logInfo("Heartbeat 请求出现异常 -- 错误码: " + nCode + "，错误信息：" +sMsg)
-                  heartbeatData.offlineCount++
-              }
-               getModelData.setHeartbeatData(heartbeatData)
 
-              if (heartbeatData.offlineCount === 5)
-              {
-                   getLogObj.logInfo("设备已离线")
-              }
+        onRespondSigOnGetBaseInfo: {
+            updateComponentUI()
+            getHttpAgent.RespondOnGetIdCardPic()
+            stack.push(itemView)
         }
-
     }
 
     Timer {
@@ -168,10 +186,60 @@ Window {
         running: true
         repeat: true
         triggeredOnStart: true
+        onTriggered: getHttpAgent.RequestOnHeartbeat()
+    }
+
+    Timer {
+        id: "counter"
+        interval: 1000
+        running: false
+        repeat: true
+        triggeredOnStart: true
         onTriggered: {
-            var heartbeatData = getModelData.getHeartbeatInfo()
-            var interfaceHeadInfo = getModelData.getInterfaceHead();
-            getHttpAgent.RequestOnHeartbeat(heartbeatData, interfaceHeadInfo)
+              title.clockNumber = mainWindow.clockCounter--
+              if (mainWindow.clockCounter == -1) {
+                      mainRect.state = "freeState"
+              }
+        }
+    }
+
+    function updateComponentUI() {
+        var modelStatus = getModelData.getModelStatus()
+        itemPage.faceBtnDisable = !modelStatus.faceBtnColor
+        itemPage.veinBtnDisable = !modelStatus.fveinModelStatus
+        itemPage.fingerDisable = !modelStatus.fprintModelStatus
+
+        if (modelStatus.faceModelStatus) {
+            itemPage.faceBtnColor = "#0090D8"
+            itemPage.faceText = "可认证"
+            itemPage.faceTextColor = "#0090D8"
+        }
+        else {
+            itemPage.faceBtnColor = "gray"
+            itemPage.faceText = "未建模"
+            itemPage.faceTextColor = "gray"
+        }
+
+        if (modelStatus.fveinModelStatus) {
+            itemPage.veinBtnColor = "#0090D8"
+            itemPage.veinText = "可认证"
+            itemPage.veinTextColor = "#0090D8"
+        }
+        else {
+            itemPage.veinBtnColor = "gray"
+            itemPage.veinText = "未建模"
+            itemPage.veinTextColor = "gray"
+        }
+
+        if (modelStatus.fprintModelStatus) {
+            itemPage.fingerBtnColor = "#0090D8"
+            itemPage.fingerText = "可认证"
+            itemPage.fingerTextColor = "#0090D8"
+        }
+        else {
+            itemPage.fingerBtnColor = "gray"
+            itemPage.fingerText = "未建模"
+            itemPage.fingerTextColor = "gray"
         }
     }
 }

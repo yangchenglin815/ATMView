@@ -1,9 +1,11 @@
-import QtQuick 2.0
+﻿import QtQuick 2.0
 import QtQuick.Controls 1.1
 import QtQuick.Controls.Styles 1.2
 
 Rectangle {
     signal showAuthorizateWindow()
+
+    property alias labelImage: onlineImage.source
 
      Label {
          id: versionNo
@@ -31,5 +33,18 @@ Rectangle {
              }
          }
          onClicked: showAuthorizateWindow()
+     }
+
+     Label {
+         id: onlineFlag
+         width: 32
+         height: 32
+         anchors.right: settings.left
+         anchors.rightMargin: 12
+         anchors.verticalCenter: parent.verticalCenter
+         Image {
+             id: onlineImage
+             anchors.fill: parent
+         }
      }
 }

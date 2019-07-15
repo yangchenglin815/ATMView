@@ -1,4 +1,4 @@
-#include <QGuiApplication>
+﻿#include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QtQml>
 #include <QTextCodec>
@@ -14,6 +14,7 @@
 #include "DbgHelp.h"
 #include "dump.h"
 #include "LogAgent.h"
+#include "ComBusiness.h"
 
 int main(int argc, char *argv[])
 {
@@ -45,6 +46,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("getLogObj", LogAgent::instance());
     engine.rootContext()->setContextProperty("getModelData", DataModelReader::instance());
     engine.rootContext()->setContextProperty("getHttpAgent", HttpBusiness::instance());
+    engine.rootContext()->setContextProperty("getBusinessAgent", ComBusiness::instance());
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     if (engine.rootObjects().isEmpty())
         return -1;

@@ -1,4 +1,4 @@
-import QtQuick 2.0
+﻿import QtQuick 2.0
 import QtQuick.Controls 1.1
 
 Rectangle {
@@ -7,8 +7,10 @@ Rectangle {
     property alias imageWidth: image.width
     property alias imageHight: image.height
     property alias textFont: label.font.pixelSize
+    property bool disable: true
     signal idCardRead()
 
+    id: root
     radius: 4
 
     Column{
@@ -20,7 +22,10 @@ Rectangle {
             MouseArea {
                 id: mouseArea
                 anchors.fill: parent
-                onClicked: idCardRead()
+                onClicked: {
+                     if (root.disable)
+                           idCardRead()
+                }
             }
         }
 

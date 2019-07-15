@@ -10,11 +10,14 @@ CONFIG += c++11
 
 INCLUDEPATH += Utils App Network Log Business Data
 INCLUDEPATH += 3rdParty/gLog/include
+INCLUDEPATH += 3rdParty/AEyeIdReader/include
 
 LIBS += -lDbgHelp
 
 win32:CONFIG(debug, debug|release): LIBS += $$PWD/3rdParty/gLog/lib/glog_d.lib
 else:win32:CONFIG(release, debug|release): LIBS += $$PWD/3rdParty/gLog/lib/glog.lib
+
+LIBS += $$PWD/3rdParty/IdCard/Lib/HDstdapi.lib
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -55,7 +58,9 @@ SOURCES += main.cpp \
     Business/HttpAgent.cpp \
     Business/HttpBusiness.cpp \
     Data/DataModelReader.cpp \
-    Log/LogAgent.cpp
+    Log/LogAgent.cpp \
+    Business/ComBusiness.cpp \
+    Business/ReadIdCardThread.cpp
 
 RESOURCES += qml.qrc
 
@@ -105,4 +110,7 @@ HEADERS += \
     Business/HttpAgent.h \
     Business/HttpBusiness.h \
     Data/DataModelReader.h \
-    Log/LogAgent.h
+    Log/LogAgent.h \
+    Business/ComBusiness.h \
+    Business/ReadIdCardThread.h \
+    Utils/CommonConstData.h
